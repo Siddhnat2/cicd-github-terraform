@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      GOOGLE_CLOUD_KEYFILE_JSON: ${{ secrets.GCP_CREDENTIALS }}
+      GOOGLE_CLOUD_KEYFILE_JSON: ${{ secrets.GEC_SERVICE_KEY }}
       GOOGLE_PROJECT: booming-pride-452614-m5
       TF_VAR_project_id: booming-pride-452614-m5
 
