@@ -1,4 +1,4 @@
-name: Deploy with GCP
+name: Build and Push Docker image
 
 on:
   push:
@@ -6,30 +6,19 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up GCP credentials
-        run: |
-          echo "${{ secrets.GEC_SERVICE_KEY }}" > $HOME/gcp-key.json
-        shell: bash
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Authenticate with GCP
-        uses: google-github-actions/auth@v1
-        with:
-          credentials_json: '${{ secrets.GEC_SERVICE_KEY }}'
+      - name: Build Docker image
+        run: docker build -t yogesh619/quicklearn-repo:my-cicd-app .
 
-      - name: Configure gcloud project
-        run: |
-          gcloud config set project true-solstice-452505-v2
-          gcloud auth list
+      - name: Push Docker image
+        run: docker push siddhant927/sid-image:my-cicd-app
 
-      # Example step using gcloud (optional)
-      - name: Deploy or run command
-        run: |
-          # Example: Deploy App Engine
-          gcloud app deploy --quiet
