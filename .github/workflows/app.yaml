@@ -1,6 +1,0 @@
-runtime: python39  # or whatever version you're using
-entrypoint: gunicorn -b :$PORT main:app  # adjust this based on your framework
-
-handlers:
-- url: /.*
-  script: auto
